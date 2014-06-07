@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>My first Three.js app</title>
+		<style>canvas { width: 100%; height: 100% }</style>
+	</head>
+	<body>
+	<canvas id="container" name ="container" width="900" height="800"></canvas>
+		<script src="js/three.min.js"></script>
+        <script src="js/jquery-2.1.1.js"></script>
+        <script src="js/BasicThreeRenderer.js"></script>
+        <script src="js/controls/TrackBallControls.js"></script>
+        <script src="js/underscore.js"></script>
+		<script>
+            var canvas =  document.getElementById('container');
+            var jsScene = new WebGLScene(canvas);
+            jsScene.initScene(0xffffff, 0.0);
+			jsScene.render(jsScene);
+            jsScene.addCube([1,1,1],[0,0,0], 0xff0000);
+            jsScene.addCube([2,2,2],[2,2,2]);
+            canvas.height = 1000;
+            canvas.width = 1200;
+            jsScene.redrawRenderCanvas();
+            //clearScene();
+		</script>
+	</body>
+</html>
