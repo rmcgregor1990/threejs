@@ -8,12 +8,15 @@ function WebGLScene(convas){
     this.ASPECT = this.WIDTH/this.HEIGHT;
     this.CANVAS = canvas;
 
-    this.initScene = function(colour, alpha){
+    this.initScene = function(colour, alpha, params){
         if(typeof(colour)==='undefined') colour = 0xffffff;
         if(typeof(alpha)==='undefined') alpha = 0;
+        if(typeof(params)==='undefined') params = new Object();
 
-
-        this.renderer = new THREE.WebGLRenderer({canvas: this.CANVAS, alpha: true});
+        params.canvas = this.CANVAS;
+        params.alpha = true;    
+           
+        this.renderer = new THREE.WebGLRenderer(params);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.FOV, this.ASPECT, this.CLIP_NEAR, this.CLIP_FAR);
         this.renderer.setClearColor(colour, alpha);
@@ -60,7 +63,8 @@ function WebGLScene(convas){
     }
 
 
-    this.addSTL = function (Load_path, scale_dims, pos, colour, name) {
+    this.addSTL = function (Load_path, pos, colour, name, scale_dims) {
+        if(typeof(scale_dims)==='undefined') scale_dims = [0,0,0];
         if(typeof(colour)==='undefined') colour = 0xffffff;
         if(typeof(name)==='undefined') name = "STLModel";
 
@@ -68,23 +72,43 @@ function WebGLScene(convas){
         var position = toVec3(pos);
 
         var loader = new THREE.STLLoader();
+
         loader.addEventListener( 'load', function ( event ) {
 
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial( {color: colour} );
-            var bBox = geometry.boundingBox;
-            var scale = dimentions.x/(bBox.max.x - bBox.min.x);
-            geometry.applyMatrix4(new THREE.Matrix4().makeScale(scale,scale,scale));
-            geometry.dynamic = true;
-            geometry.verticesNeedUpdate = true;
-
             var mesh = new THREE.Mesh( geometry, material );
-            mesh.position = position;
-           //mesh.rotation.set( 0, - Math.PI / 2, 0 );
-            mesh.name  = name;
+            mesh.name = name;
             this.scene.add( mesh );
 
-        } );
+        }.bind(this));
+
+        loader.load( './models/BatteryAssembly.stl' );
+
+
+        // var loader = new THREE.STLLoader();
+
+        // loader.addEventListener( 'load', function ( event ) {
+
+        //     var geometry = event.content;
+        //     var material = new THREE.MeshLambertMaterial( {color: colour} );
+        //     var bBox = geometry.boundingBox;
+        //     if (dimentions.x != 0){
+        //         var scale = dimentions.x/(bBox.max.x - bBox.min.x);
+        //         geometry.applyMatrix4(new THREE.Matrix4().makeScale(scale,scale,scale));
+        //     }
+        //     geometry.dynamic = true;
+        //     geometry.verticesNeedUpdate = true;
+
+        //     var mesh = new THREE.Mesh( geometry, material );
+        //     mesh.position = position;
+        //    //mesh.rotation.set( 0, - Math.PI / 2, 0 );
+        //     mesh.name  = name;
+        //     this.scene.add( mesh );
+
+        // } );
+
+        // loader.load(Load_path);
     }
 
 
@@ -101,13 +125,17 @@ function WebGLScene(convas){
         this.renderer.render(this.scene, this.camera);     
     } 
 
+    this.exportToSTL = function () {
+        var exporter = new THREE.STLExporter();
+        return exporter.parse(this.scene);
+    }
 
     this.redrawRenderCanvas = function () {
-    this.camera.aspect
-    this.camera.aspect = this.ASPECT;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.WIDTH, this.HEIGHT);
-    this.controls.handleResize(); 
+        this.camera.aspect
+        this.camera.aspect = this.ASPECT;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.WIDTH, this.HEIGHT);
+        this.controls.handleResize(); 
     }  
 }   
 
