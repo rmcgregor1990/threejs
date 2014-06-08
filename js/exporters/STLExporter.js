@@ -71,5 +71,4 @@ THREE.STLExporter.prototype = {
 		};
 
 	}() )
-
 };

@@ -94,7 +94,7 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	var binData = this.ensureBinary( data );
 
 	return isBinary()
-		? this.parseBinary( binData )
+		? this.parseBinaryToGeometry( binData )
 		: this.parseASCII( this.ensureString( data ) );
 
 };
@@ -136,6 +136,7 @@ THREE.STLLoader.prototype.parseBinary = function ( data ) {
 
 };
 
+
 THREE.STLLoader.prototype.parseASCII = function (data) {
 
 	var geometry, length, normal, patternFace, patternNormal, patternVertex, result, text;
@@ -173,6 +174,38 @@ THREE.STLLoader.prototype.parseASCII = function (data) {
 	return geometry;
 
 };
+
+THREE.STLLoader.prototype.parseBinaryToGeometry = function ( data ) {
+	var reader = new DataView( data );
+	var faces = reader.getUint32( 80, true );
+	var dataOffset = 84;
+	var faceLength = 12 * 4 + 2;
+
+	var geometry = new THREE.Geometry();
+
+	for ( var face = 0; face < faces; face ++ ) {
+
+		var start = dataOffset + face * faceLength;
+		var normal = new THREE.Vector3(reader.getFloat32(start, true ), reader.getFloat32( start + 4, true ), reader.getFloat32( start + 8, true ));
+
+		for ( var i = 1; i <= 3; i ++ ) {
+
+			var vertexstart = start + i * 12;
+			geometry.vertices.push(new THREE.Vector3( reader.getFloat32( vertexstart, true ), reader.getFloat32( vertexstart + 4, true ), reader.getFloat32( vertexstart + 8, true )) );
+
+		}
+
+		length = geometry.vertices.length;
+		geometry.faces.push( new THREE.Face3( length - 3, length - 2, length - 1, normal ) );
+
+	}
+
+	geometry.computeBoundingBox();
+	geometry.computeBoundingSphere();
+	
+	return geometry;
+};
+
 
 THREE.STLLoader.prototype.ensureString = function (buf) {
 

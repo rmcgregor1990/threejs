@@ -79,7 +79,11 @@ function WebGLScene(convas){
             var material = new THREE.MeshLambertMaterial( {color: colour} );
             var mesh = new THREE.Mesh( geometry, material );
             mesh.name = name;
+
+            var helper = new THREE.BoundingBoxHelper( mesh, 0x0000ff);
+            helper.update();
             this.scene.add( mesh );
+            this.scene.add(helper);
 
         }.bind(this));
 
