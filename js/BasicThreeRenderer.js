@@ -55,6 +55,7 @@ function WebGLScene(convas){
         var SEGMENTS = 2;
         var dimentions = toVec3(dims);
         var geometry = new THREE.BoxGeometry(dimentions.x, dimentions.y, dimentions.z);
+        setCentre(geometry);
         var material = new THREE.MeshLambertMaterial({color: colour});
         var cube = new THREE.Mesh(geometry, material);
         cube.name = name;
@@ -63,7 +64,7 @@ function WebGLScene(convas){
     }
 
 
-    this.addSTL = function (Load_path, pos, colour, name, scale_dims) {
+    this.addSTL = function (load_path, pos, colour, name, scale_dims) {
         if(typeof(scale_dims)==='undefined') scale_dims = [0,0,0];
         if(typeof(colour)==='undefined') colour = 0xffffff;
         if(typeof(name)==='undefined') name = "STLModel";
@@ -76,18 +77,25 @@ function WebGLScene(convas){
         loader.addEventListener( 'load', function ( event ) {
 
             var geometry = event.content;
+            setCentre(geometry);
             var material = new THREE.MeshLambertMaterial( {color: colour} );
             var mesh = new THREE.Mesh( geometry, material );
             mesh.name = name;
 
-            var helper = new THREE.BoundingBoxHelper( mesh, 0x0000ff);
-            helper.update();
             this.scene.add( mesh );
+
+            var helper = new THREE.BoundingBoxHelper( mesh);
+            helper.update();
             this.scene.add(helper);
+
+
+            var helper2 = new THREE.ArrowHelper( new THREE.Vector3(1,0,0), mesh.position);
+            helper2.setColor(0x0000FF);
+            this.scene.add(helper2);
 
         }.bind(this));
 
-        loader.load( './models/BatteryAssembly.stl' );
+        loader.load( load_path );
 
 
         // var loader = new THREE.STLLoader();
@@ -151,9 +159,22 @@ function toVec3(a) {
     {
         ret = new THREE.Vector3(a[0],a[1],a[2]);
     }
-    else if (x in a){
+    else if ('x' in a){
         ret = new THREE.Vector3(a.x,a.y,a.z);
     }
     return ret;
+}
+
+function setCentre(geometry, new_centre) {
+    var geometry;
+    geometry.computeBoundingBox();
+    if(typeof(new_centre)==='undefined') new_centre = geometry.boundingBox.min;
+
+    THREE.GeometryUtils.center( geometry );
+    var offset = toVec3(new_centre);
+    geometry.applyMatrix( new THREE.Matrix4().makeTranslation( offset.x, offset.y, offset.z ) );
+    geometry.computeBoundingBox();
+
+    return offset;
 }
 

@@ -19,8 +19,8 @@
             var jsScene = new WebGLScene(canvas);
             jsScene.initScene(0xffffff, 0.0, { antialiasing: true });
             jsScene.render(jsScene);
-            jsScene.addCube([10,1,10],[0,-1,0], 0xff0000);
-            jsScene.addCube([2,2,2],[2,2,2]);
+            jsScene.addCube([10,1,10],[-1,-1,-1], 0xff0000);
+            jsScene.addCube([2,2,2],[0,0,0]);
             jsScene.addSTL("models/BatteryAssembly.stl",[0,0,0], 0x00ff00);
             //clearScene();
         </script>
@@ -32,7 +32,7 @@
             text_options_form.addEventListener("submit", function(event) {
                 event.preventDefault();
                 var blob = new Blob([jsScene.exportToSTL()], {type: "text/plain;charset=utf-8"});
-                saveAs(blob, "model.stl");
+                saveAs(blob, "./models/BatteryAssembly.stl");
             }, false);
         </script>
     </body>
