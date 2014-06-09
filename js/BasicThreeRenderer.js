@@ -1,5 +1,5 @@
 
-function WebGLScene(convas){
+function WebGLScene(canvas){
     this.FOV = 75;
     this.CLIP_NEAR = 0.1;
     this.CLIP_FAR = 1000;
@@ -14,27 +14,29 @@ function WebGLScene(convas){
         if(typeof(params)==='undefined') params = new Object();
 
         params.canvas = this.CANVAS;
-        params.alpha = true;    
-           
+        params.alpha = true;
+
         this.renderer = new THREE.WebGLRenderer(params);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.FOV, this.ASPECT, this.CLIP_NEAR, this.CLIP_FAR);
         this.renderer.setClearColor(colour, alpha);
         this.renderer.setSize(this.WIDTH, this.HEIGHT);
         window.addEventListener( 'resize', this.redrawRenderCanvas.bind(this), false );
-        this.camera.position.z = 5;
+        this.camera.position.z = 20;
 
-        this.controls = new THREE.TrackballControls( this.camera );
-        this.controls.rotateSpeed = 1.0;
-        this.controls.zoomSpeed = 1.2;
+        this.controls = new THREE.TrackballControls( this.camera, this.renderer.domElement );
+        this.controls.rotateSpeed = 0.8;
+        this.controls.zoomSpeed = 0.8;
         this.controls.panSpeed = 0.8;
         this.controls.noZoom = false;
         this.controls.noPan = true;
+        this.controls.minDistance = 10;
+        this.controls.maxDistance = 70;
 
-        this.controls.staticMoving = true;
-        this.controls.dynamicDampingFactor = 0.3;
-
+        //this.controls.staticMoving = true;
+        this.controls.dynamicDampingFactor = 0.2;
         this.controls.keys = [ 65, 83, 68 ];
+
 
         light = new THREE.DirectionalLight( 0xffffff );
         light.position.set( 1, 1, 1 );
@@ -55,11 +57,14 @@ function WebGLScene(convas){
         var SEGMENTS = 2;
         var dimentions = toVec3(dims);
         var geometry = new THREE.BoxGeometry(dimentions.x, dimentions.y, dimentions.z);
-        setCentre(geometry);
+        //setCentre(geometry);
         var material = new THREE.MeshLambertMaterial({color: colour});
         var cube = new THREE.Mesh(geometry, material);
         cube.name = name;
         cube.position = toVec3(pos);
+        cube.position.x += (dimentions.x /2);
+        cube.position.y += (dimentions.y /2);
+        cube.position.z += (dimentions.z /2);
         this.scene.add(cube);
     }
 
@@ -78,64 +83,53 @@ function WebGLScene(convas){
 
             var geometry = event.content;
             setCentre(geometry);
+
+            //Scale the geometry
+            if (dimentions.x != 0){
+                var bBox = geometry.boundingBox;
+                var scale = dimentions.x/(bBox.max.x - bBox.min.x);
+                geometry.applyMatrix(new THREE.Matrix4().makeScale(scale,scale,scale));
+            }
+
+            //rotate the geometry
+            geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI /2));
+
+            geometry.dynamic = true;
+            geometry.verticesNeedUpdate = true;
+
             var material = new THREE.MeshLambertMaterial( {color: colour} );
             var mesh = new THREE.Mesh( geometry, material );
             mesh.name = name;
+            mesh.position = position;
+            mesh.position.x += (dimentions.x /2);
+            mesh.position.y += (dimentions.y /2);
+            mesh.position.z += (dimentions.z /2);
 
             this.scene.add( mesh );
 
-            var helper = new THREE.BoundingBoxHelper( mesh);
-            helper.update();
-            this.scene.add(helper);
-
-
-            var helper2 = new THREE.ArrowHelper( new THREE.Vector3(1,0,0), mesh.position);
-            helper2.setColor(0x0000FF);
-            this.scene.add(helper2);
+            //var helper = new THREE.BoundingBoxHelper( mesh);
+            //helper.update();
+            //this.scene.add(helper);
 
         }.bind(this));
 
         loader.load( load_path );
-
-
-        // var loader = new THREE.STLLoader();
-
-        // loader.addEventListener( 'load', function ( event ) {
-
-        //     var geometry = event.content;
-        //     var material = new THREE.MeshLambertMaterial( {color: colour} );
-        //     var bBox = geometry.boundingBox;
-        //     if (dimentions.x != 0){
-        //         var scale = dimentions.x/(bBox.max.x - bBox.min.x);
-        //         geometry.applyMatrix4(new THREE.Matrix4().makeScale(scale,scale,scale));
-        //     }
-        //     geometry.dynamic = true;
-        //     geometry.verticesNeedUpdate = true;
-
-        //     var mesh = new THREE.Mesh( geometry, material );
-        //     mesh.position = position;
-        //    //mesh.rotation.set( 0, - Math.PI / 2, 0 );
-        //     mesh.name  = name;
-        //     this.scene.add( mesh );
-
-        // } );
-
-        // loader.load(Load_path);
     }
 
 
     this.clearScene = function() {
-        var objsToRemove = _.rest(scene.children, 1);
+        var objsToRemove = _.rest(this.scene.children, 1);
         _.each(objsToRemove, function( object ) {
-              scene.remove(object);
-        });
+              this.scene.remove(object);
+        }.bind(this));
     }
 
     this.render = function () {
         requestAnimationFrame(this.render.bind(this));
+        this.controls.handleResize();
         this.controls.update();
-        this.renderer.render(this.scene, this.camera);     
-    } 
+        this.renderer.render(this.scene, this.camera);
+    }
 
     this.exportToSTL = function () {
         var exporter = new THREE.STLExporter();
@@ -147,9 +141,9 @@ function WebGLScene(convas){
         this.camera.aspect = this.ASPECT;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.WIDTH, this.HEIGHT);
-        this.controls.handleResize(); 
-    }  
-}   
+        this.controls.handleResize();
+    }
+}
 
 
 //Useful Global Functions
@@ -165,11 +159,25 @@ function toVec3(a) {
     return ret;
 }
 
+
+function toColour(a) {
+    var colour = a;
+    if ($.isArray(a))
+    {
+        colour = 255*parts[i].colour[0]*Math.pow(2,16)+255*parts[i].colour[1]*255+255*parts[i].colour[2];
+    }
+
+    return colour;
+}
+
+
+
 function setCentre(geometry, new_centre) {
     var geometry;
     geometry.computeBoundingBox();
     if(typeof(new_centre)==='undefined') new_centre = geometry.boundingBox.min;
 
+    new_centre = new THREE.Vector3(0,0,0);
     THREE.GeometryUtils.center( geometry );
     var offset = toVec3(new_centre);
     geometry.applyMatrix( new THREE.Matrix4().makeTranslation( offset.x, offset.y, offset.z ) );

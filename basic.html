@@ -25,14 +25,14 @@
             //clearScene();
         </script>
         <form id="text-options">
-            <input type="submit" value="Save"/>        
+            <input type="submit" value="Save"/>
         </form>
-        <script>     
+        <script>
             var text_options_form = document.getElementById('text-options');
             text_options_form.addEventListener("submit", function(event) {
                 event.preventDefault();
                 var blob = new Blob([jsScene.exportToSTL()], {type: "text/plain;charset=utf-8"});
-                saveAs(blob, "./models/BatteryAssembly.stl");
+                saveAs(blob, "model_output.stl");
             }, false);
         </script>
     </body>
