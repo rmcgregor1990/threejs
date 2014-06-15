@@ -14,13 +14,34 @@
         <script src="js/utils/FileSaver.js"></script>
         <script src="js/wip/TypedGeometry.js"></script>
         <script src="js/exporters/STLExporter.js"></script>
+        <script src="fonts/gentilis_bold.typeface.js"></script>
+        <script src="fonts/gentilis_regular.typeface.js"></script>
+        <script src="fonts/optimer_bold.typeface.js"></script>
+        <script src="fonts/optimer_regular.typeface.js"></script>
+        <script src="fonts/helvetiker_bold.typeface.js"></script>
+        <script src="fonts/helvetiker_regular.typeface.js"></script>
+        <script src="fonts/droid/droid_sans_regular.typeface.js"></script>
+        <script src="fonts/droid/droid_sans_bold.typeface.js"></script>
+        <script src="fonts/droid/droid_serif_regular.typeface.js"></script>
+        <script src="fonts/droid/droid_serif_bold.typeface.js"></script>
         <script>
             var canvas =  document.getElementById('container');
             var jsScene = new WebGLScene(canvas);
             jsScene.initScene(0xffffff, 0.0, { antialiasing: true });
-            jsScene.render(jsScene);
-            jsScene.addCube([10,1,10],[-1,-1,-1], 0xff0000);
+
+                jsScene.controls.rotateSpeed = 0.8;
+                jsScene.controls.zoomSpeed = 0.8;
+                jsScene.controls.panSpeed = 0.8;
+                jsScene.controls.noZoom = false;
+                jsScene.controls.noPan = false;
+                jsScene.controls.minDistance = 0;
+                jsScene.controls.maxDistance = 700000;
+            jsScene.animate();
+            //jsScene.addCube([10,1,10],[-1,-1,-1], 0xff0000);
             jsScene.addCube([2,2,2],[0,0,0], 0x00ff00, "bob");
+            //jsScene.drawLine([[0,0,0], [15,0,0] ]);
+            jsScene.addText2D("20mm", 8, [10, 10, 0]);
+            jsScene.addText3D("20mm", 8, 1, [0, 0, 10]);
             //jsScene.addSTL("models/BatteryAssembly.stl",[0,0,0], 0x00ff00);
             //clearScene();
         </script>

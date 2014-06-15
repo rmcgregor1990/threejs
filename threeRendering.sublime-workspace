@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"W",
+				"WebGLScene"
+			],
+			[
+				"a",
+				"allafds"
+			],
+			[
+				"c",
+				"cijlih"
+			],
+			[
+				"Bou",
+				"BoundingBoxHelper  (class)"
+			],
+			[
 				"M",
 				"Matrix3"
 			],
@@ -112,244 +128,21 @@
 	"buffers":
 	[
 		{
-			"file": "python/packing.py",
+			"file": "/C/Projects/ctest.c",
 			"settings":
 			{
-				"buffer_size": 2150,
-				"line_ending": "Windows",
-				"name": "packing.py"
-			}
-		},
-		{
-			"file": "python/server.py",
-			"settings":
-			{
-				"buffer_size": 0,
+				"buffer_size": 125,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "python/webserver.py",
-			"settings":
-			{
-				"buffer_size": 2120,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\nfunction WebGLScene(convas){\n    this.FOV = 75;\n    this.CLIP_NEAR = 0.1;\n    this.CLIP_FAR = 1000;\n    this.WIDTH = canvas.width;\n    this.HEIGHT = canvas.height;\n    this.ASPECT = this.WIDTH/this.HEIGHT;\n    this.CANVAS = canvas;\n\n    this.initScene = function(colour, alpha, params){\n        if(typeof(colour)==='undefined') colour = 0xffffff;\n        if(typeof(alpha)==='undefined') alpha = 0;\n        if(typeof(params)==='undefined') params = new Object();\n\n        params.canvas = this.CANVAS;\n        params.alpha = true;    \n           \n        this.renderer = new THREE.WebGLRenderer(params);\n        this.scene = new THREE.Scene();\n        this.camera = new THREE.PerspectiveCamera(this.FOV, this.ASPECT, this.CLIP_NEAR, this.CLIP_FAR);\n        this.renderer.setClearColor(colour, alpha);\n        this.renderer.setSize(this.WIDTH, this.HEIGHT);\n        window.addEventListener( 'resize', this.redrawRenderCanvas.bind(this), false );\n        this.camera.position.z = 5;\n\n        this.controls = new THREE.TrackballControls( this.camera );\n        this.controls.rotateSpeed = 1.0;\n        this.controls.zoomSpeed = 1.2;\n        this.controls.panSpeed = 0.8;\n        this.controls.noZoom = false;\n        this.controls.noPan = true;\n\n        this.controls.staticMoving = true;\n        this.controls.dynamicDampingFactor = 0.3;\n\n        this.controls.keys = [ 65, 83, 68 ];\n\n        light = new THREE.DirectionalLight( 0xffffff );\n        light.position.set( 1, 1, 1 );\n        this.scene.add( light );\n\n        light = new THREE.DirectionalLight( 0x002288 );\n        light.position.set( -1, -1, -1 );\n        this.scene.add( light );\n\n        light = new THREE.AmbientLight( 0x222222 );\n        this.scene.add( light );\n    }\n\n    this.addCube = function (dims, pos, colour, name) {\n        if(typeof(colour)==='undefined') colour = 0xffffff;\n        if(typeof(name)==='undefined') name = \"aCube\";\n\n        var SEGMENTS = 2;\n        var dimentions = toVec3(dims);\n        var geometry = new THREE.BoxGeometry(dimentions.x, dimentions.y, dimentions.z);\n        var material = new THREE.MeshLambertMaterial({color: colour});\n        var cube = new THREE.Mesh(geometry, material);\n        cube.name = name;\n        cube.position = toVec3(pos);\n        this.scene.add(cube);\n    }\n\n\n    this.addSTL = function (Load_path, pos, colour, name, scale_dims) {\n        if(typeof(scale_dims)==='undefined') scale_dims = [0,0,0];\n        if(typeof(colour)==='undefined') colour = 0xffffff;\n        if(typeof(name)==='undefined') name = \"STLModel\";\n\n        var dimentions = toVec3(scale_dims);\n        var position = toVec3(pos);\n\n        var loader = new THREE.STLLoader();\n\n        loader.addEventListener( 'load', function ( event ) {\n\n            var geometry = event.content;\n            var material = new THREE.MeshLambertMaterial( {color: colour} );\n            var mesh = new THREE.Mesh( geometry, material );\n            mesh.name = name;\n            this.scene.add( mesh );\n\n        }.bind(this));\n\n        loader.load( './models/BatteryAssembly.stl' );\n\n\n        // var loader = new THREE.STLLoader();\n\n        // loader.addEventListener( 'load', function ( event ) {\n\n        //     var geometry = event.content;\n        //     var material = new THREE.MeshLambertMaterial( {color: colour} );\n        //     var bBox = geometry.boundingBox;\n        //     if (dimentions.x != 0){\n        //         var scale = dimentions.x/(bBox.max.x - bBox.min.x);\n        //         geometry.applyMatrix4(new THREE.Matrix4().makeScale(scale,scale,scale));\n        //     }\n        //     geometry.dynamic = true;\n        //     geometry.verticesNeedUpdate = true;\n\n        //     var mesh = new THREE.Mesh( geometry, material );\n        //     mesh.position = position;\n        //    //mesh.rotation.set( 0, - Math.PI / 2, 0 );\n        //     mesh.name  = name;\n        //     this.scene.add( mesh );\n\n        // } );\n\n        // loader.load(Load_path);\n    }\n\n\n    this.clearScene = function() {\n        var objsToRemove = _.rest(scene.children, 1);\n        _.each(objsToRemove, function( object ) {\n              scene.remove(object);\n        });\n    }\n\n    this.render = function () {\n        requestAnimationFrame(this.render.bind(this));\n        this.controls.update();\n        this.renderer.render(this.scene, this.camera);     \n    } \n\n    this.exportToSTL = function () {\n        var exporter = new THREE.STLExporter();\n        return exporter.parse(this.scene);\n    }\n\n    this.\n\n    this.redrawRenderCanvas = function () {\n        this.camera.aspect\n        this.camera.aspect = this.ASPECT;\n        this.camera.updateProjectionMatrix();\n        this.renderer.setSize(this.WIDTH, this.HEIGHT);\n        this.controls.handleResize(); \n    }  \n}   \n\n\n//Useful Global Functions\nfunction toVec3(a) {\n    var ret = a;\n    if ($.isArray(a))\n    {\n        ret = new THREE.Vector3(a[0],a[1],a[2]);\n    }\n    else if (x in a){\n        ret = new THREE.Vector3(a.x,a.y,a.z);\n    }\n    return ret;\n}\n\n",
+			"contents": "\nfunction WebGLScene(canvas) {\n    this.FOV = 75;\n    this.CLIP_NEAR = 0.1;\n    this.CLIP_FAR = 1000;\n    this.WIDTH = canvas.width;\n    this.HEIGHT = canvas.height;\n    this.ASPECT = this.WIDTH / this.HEIGHT;\n    this.CANVAS = canvas;\n}\n\nWebjkhdsfjgerhg.prototype.method_name = function(first_argument) {\n    // body...\n};\n\n    this.initScene = function(colour, alpha, params) {\n        if(typeof(colour) === 'undefined') colour = 0xffffff;\n        if(typeof(alpha) === 'undefined') alpha = 0;\n        if(typeof(params) === 'undefined') params = new Object();\n\n        params.canvas = this.CANVAS;\n        params.alpha = true;\n\n        this.renderEnabled = false;\n\n        try {\n        this.renderer = new THREE.WebGLRenderer(params);\n        }\n        catch(err)\n        {\n            console.error(\"Error Could Not Create WebGL Context\");\n            throw(err);\n        }\n\n        this.scene = new THREE.Scene();\n        this.camera = new THREE.PerspectiveCamera(this.FOV, this.ASPECT, this.CLIP_NEAR, this.CLIP_FAR);\n        this.renderer.setClearColor(colour, alpha);\n        this.renderer.setSize(this.WIDTH, thEIGHT);\n        window.addEventListener( 'resize', this.redrawRenderCanvas.bind(this), false );\n        this.camera.position.z = 20;\n\n        this.controls = new THREE.TrackballControls( this.camera, this.renderer.domElement );\n        this.controls.rotateSpeed = 0.8;\n        this.controls.zoomSpeed = 0.8;\n        this.controls.panSpeed = 0.8;\n        this.controls.noZoom = false;\n        this.controls.noPan = true;\n        this.controls.minDistance = 10;\n        this.controls.maxDistance = 70;\n\n        this.controls.update();\n        this.controls.addEventListener( 'change', this.renderFrame.bind(this) );\n\n        //this.controls.staticMoving = true;\n        this.controls.dynamicDampingFactor = 0.2;\n        this.controls.keys = [ 65, 83, 68 ];\n\n\n        light = new THREE.DirectionalLight( 0xffffff );\n        light.position.set( 1, 1, 1 );\n        this.scene.add( light );\n\n        light = new THREE.DirectionalLight( 0x002288 );\n        light.position.set( -1, -1, -1 );\n        this.scene.add( light );\n\n        var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.3 );\n        directionalLight.position.set( 0, 1, -20 );\n        this.scene.add( directionalLight );\n\n\n        light = new THREE.AmbientLight( 0x222222 );\n        this.scene.add( light );\n    }\n\n    this.addCube = function (dims, pos, colour, name) {\n        if(typeof(colour)==='undefined') colour = 0xffffff;\n        if(typeof(name)==='undefined') name = \"aCube\";\n\n        var SEGMENTS = 2;\n        var dimentions = toVec3(dims);\n        var geometry = new THREE.BoxGeometry(dimentions.x, dimentions.y, dimentions.z);\n        //setCentre(geometry);\n        var material = new THREE.MeshLambertMaterial({color: colour});\n        var cube = new THREE.Mesh(geometry, material);\n        cube.name = name;\n        cube.position = toVec3(pos);\n        cube.position.x += (dimentions.x /2);\n        cube.position.y += (dimentions.y /2);\n        cube.position.z += (dimentions.z /2);\n        cube.separate = false;\n        this.scene.add(cube);\n    }\n\n\n    this.addSTL = function (load_path, pos, rotation, colour, name, scale_dims) {\n        if(typeof(scale_dims)==='undefined') scale_dims = [0,0,0];\n        if(typeof(colour)==='undefined') colour = 0xffffff;\n        if(typeof(name)==='undefined') name = \"STLModel\";\n\n        var dimentions = toVec3(scale_dims);\n        var position = toVec3(pos);\n        rotation = toVec3(rotation);\n\n        var loader = new THREE.STLLoader();\n\n        loader.addEventListener( 'load', function ( event ) {\n\n            var geometry = event.content;\n            setCentre(geometry);\n\n            //Scale the geometry\n            if (dimentions.x != 0){\n                var bBox = geometry.boundingBox;\n                var scale = dimentions.x/(bBox.max.x - bBox.min.x);\n                geometry.applyMatrix(new THREE.Matrix4().makeScale(scale,scale,scale));\n            }\n\n            //rotate the geometry\n            geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI /2 + rotation.x));\n\n            geometry.dynamic = true;\n            geometry.verticesNeedUpdate = true;\n\n            var material = new THREE.MeshLambertMaterial( {color: colour} );\n            var mesh = new THREE.Mesh( geometry, material );\n            mesh.name = name;\n            mesh.position = position;\n            mesh.position.x += (dimentions.x /2);\n            mesh.position.y += (dimentions.y /2);\n            mesh.position.z += (dimentions.z /2);\n\n            mesh.separate = true;\n\n            this.scene.add( mesh );\n\n            //var helper = new THREE.BoundingBoxHelper( mesh);\n            //helper.update();\n            //this.scene.add(helper);\n            this.renderFrame();\n\n        }.bind(this));\n\n        loader.load( load_path );\n    }\n\n    this.getSceneBoundingBox = function () {\n        bBox = new THREE.Box3();\n\n        min = new THREE.Vector3(100000,100000,100000);\n        max = new THREE.Vector3(0,0,0);\n        for (var i = this.scene.children.length - 1; i >= 0; i--) {\n            child = this.scene.children[i];\n            if (\"geometry\" in child && child.separate === false){\n                child.geometry.computeBoundingBox();\n                //min\n                bBox.min.x = Math.min(bBox.min.x, child.geometry.boundingBox.min.x);\n                bBox.min.y = Math.min(bBox.min.y, child.geometry.boundingBox.min.y);\n                bBox.min.z = Math.min(bBox.min.z, child.geometry.boundingBox.min.z);\n                //max\n                bBox.max.x = Math.max(bBox.max.x, child.geometry.boundingBox.max.x);\n                bBox.max.y = Math.max(bBox.max.y, child.geometry.boundingBox.max.y);\n                bBox.max.z = Math.max(bBox.max.z, child.geometry.boundingBox.max.z);\n            }\n\n        };\n        return bBox;\n    }\n\n    this.updateSceneDimentions = function() {\n        var bBox = this.getSceneBoundingBox();\n        var dims = new THREE.Vector3(0,0,0);\n\n        dims.subVectors(bBox.max, bBox.min);\n\n        this.renderSizeUpdateNotify(dims);\n        return dims;\n    }\n\n    this.renderSizeUpdateNotify = function(param) {\n        if (param instanceof Function) {\n            this.renderSizeUpdateNotify.callback = param;\n        }\n\n        if (this.renderSizeUpdateNotify.callback instanceof Function) {\n            this.renderSizeUpdateNotify.callback(param);\n        }\n    }\n\n    this.clearScene = function()\n    {\n        if (typeof(this.scene) === 'undefined')\n        {\n            return;\n        }\n\n        for (var i = this.scene.children.length - 1; i >= 0; i--) {\n            child = this.scene.children[i];\n            if (\"geometry\" in child) {\n                this.scene.remove(child);\n            }\n        };\n    }\n\n    this.animate = function() {\n        requestAnimationFrame(this.animate.bind(this));\n        this.controls.handleResize();\n        this.controls.update();\n    }\n\n    this.renderFrame = function (){\n        this.renderer.render(this.scene, this.camera);\n        this.updateSceneDimentions();\n    }\n\n    this.exportToSTL = function () {\n        var exporter = new THREE.STLExporter();\n        return exporter.parse(this.scene);\n    }\n\n    this.redrawRenderCanvas = function () {\n        this.camera.aspect\n        this.camera.aspect = this.ASPECT;\n        this.camera.updateProjectionMatrix();\n        this.renderer.setSize(this.WIDTH, this.HEIGHT);\n        this.controls.handleResize();\n    }\n}\n\n\n//Useful Global Functions\nfunction toVec3(a) {\n    var ret = a;\n    if ($.isArray(a))\n    {\n        ret = new THREE.Vector3(a[0],a[1],a[2]);\n    }\n    else if ('x' in a){\n        ret = new THREE.Vector3(a.x,a.y,a.z);\n    }\n    return ret;\n}\n\n\nfunction toColour(a) {\n    var colour = a;\n    if ($.isArray(a))\n    {\n        colour = 255*parts[i].colour[0]*Math.pow(2,16)+255*parts[i].colour[1]*255+255*parts[i].colour[2];\n    }\n\n    return colour;\n}\n\n\n\nfunction setCentre(geometry, new_centre) {\n    var geometry;\n    geometry.computeBoundingBox();\n    if(typeof(new_centre)==='undefined') new_centre = geometry.boundingBox.min;\n\n    new_centre = new THREE.Vector3(0,0,0);\n    THREE.GeometryUtils.center( geometry );\n    var offset = toVec3(new_centre);\n    geometry.applyMatrix( new THREE.Matrix4().makeTranslation( offset.x, offset.y, offset.z ) );\n    geometry.computeBoundingBox();\n\n    return offset;\n}\n\n",
 			"file": "js/BasicThreeRenderer.js",
-			"file_size": 5138,
-			"file_write_time": 130467208748003411,
+			"file_size": 8606,
+			"file_write_time": 130472560882371933,
 			"settings":
 			{
-				"buffer_size": 4994,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "models/test.stl",
-			"settings":
-			{
-				"buffer_size": 14447167,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "js/loaders/STLLoader.js",
-			"settings":
-			{
-				"buffer_size": 10360,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "<html>\n    <head>\n        <title>My first Three.js app</title>\n        <style>canvas { width: 100%; height: 100% }</style>\n    </head>\n    <body>\n    <canvas id=\"container\" name =\"container\" width=\"700\" height=\"700\"></canvas>\n        <script src=\"js/three.min.js\"></script>\n        <script src=\"js/jquery-2.1.1.js\"></script>\n        <script src=\"js/BasicThreeRenderer.js\"></script>\n        <script src=\"js/controls/TrackBallControls.js\"></script>\n        <script src=\"js/loaders/STLLoader.js\"></script>\n        <script src=\"js/utils/underscore.js\"></script>\n        <script src=\"js/utils/FileSaver.js\"></script>\n        <script src=\"js/wip/TypedGeometry.js\"></script>\n        <script src=\"js/exporters/STLExporter.js\"></script>\n        <script>\n            var canvas =  document.getElementById('container');\n            var jsScene = new WebGLScene(canvas);\n            jsScene.initScene(0xffffff, 0.0, { antialiasing: true });\n            jsScene.render(jsScene);\n            jsScene.addCube([1,1,1],[0,0,0], 0xff0000);\n            jsScene.addCube([2,2,2],[2,2,2]);\n            jsScene.addSTL(\"models/BatteryAssembly.stl\",[0,0,0], 0x00ff00);\n            //clearScene();\n        </script>\n        <form id=\"text-options\">\n            <input type=\"submit\" value=\"Save\"/>        \n        </form>\n        <script>     \n            var text_options_form = document.getElementById('text-options');\n            text_options_form.addEventListener(\"submit\", function(event) {\n                event.preventDefault();\n                var blob = new Blob([jsScene.exportToSTL()], {type: \"text/plain;charset=utf-8\"});\n                saveAs(blob, \"model.stl\");\n            }, false);\n        </script>\n    </body>\n</html>",
-			"file": "basic.html",
-			"file_size": 1706,
-			"file_write_time": 130467206953695687,
-			"settings":
-			{
-				"buffer_size": 1710,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/extras/cameras/CombinedCamera.js",
-			"settings":
-			{
-				"buffer_size": 5079,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/extras/core/Curve.js",
-			"settings":
-			{
-				"buffer_size": 6800,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/Loader.js",
-			"settings":
-			{
-				"buffer_size": 8324,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/BufferGeometryLoader.js",
-			"settings":
-			{
-				"buffer_size": 1374,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/LoadingManager.js",
-			"settings":
-			{
-				"buffer_size": 593,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/MaterialLoader.js",
-			"settings":
-			{
-				"buffer_size": 1698,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/ObjectLoader.js",
-			"settings":
-			{
-				"buffer_size": 6426,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/XHRLoader.js",
-			"settings":
-			{
-				"buffer_size": 1288,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/loaders/Cache.js",
-			"settings":
-			{
-				"buffer_size": 506,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/src/materials/MeshLambertMaterial.js",
-			"settings":
-			{
-				"buffer_size": 2860,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "solid exported\n	facet normal 1 0 0\n		outer loop\n			vertex 0.5 0.5 0.5\n			vertex 0.5 -0.5 0.5\n			vertex 0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal 1 0 0\n		outer loop\n			vertex 0.5 -0.5 0.5\n			vertex 0.5 -0.5 -0.5\n			vertex 0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal -1 0 0\n		outer loop\n			vertex -0.5 0.5 -0.5\n			vertex -0.5 -0.5 -0.5\n			vertex -0.5 0.5 0.5\n		endloop\n	endfacet\n	facet normal -1 0 0\n		outer loop\n			vertex -0.5 -0.5 -0.5\n			vertex -0.5 -0.5 0.5\n			vertex -0.5 0.5 0.5\n		endloop\n	endfacet\n	facet normal 0 1 0\n		outer loop\n			vertex -0.5 0.5 -0.5\n			vertex -0.5 0.5 0.5\n			vertex 0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal 0 1 0\n		outer loop\n			vertex -0.5 0.5 0.5\n			vertex 0.5 0.5 0.5\n			vertex 0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal 0 -1 0\n		outer loop\n			vertex -0.5 -0.5 0.5\n			vertex -0.5 -0.5 -0.5\n			vertex 0.5 -0.5 0.5\n		endloop\n	endfacet\n	facet normal 0 -1 0\n		outer loop\n			vertex -0.5 -0.5 -0.5\n			vertex 0.5 -0.5 -0.5\n			vertex 0.5 -0.5 0.5\n		endloop\n	endfacet\n	facet normal 0 0 1\n		outer loop\n			vertex -0.5 0.5 0.5\n			vertex -0.5 -0.5 0.5\n			vertex 0.5 0.5 0.5\n		endloop\n	endfacet\n	facet normal 0 0 1\n		outer loop\n			vertex -0.5 -0.5 0.5\n			vertex 0.5 -0.5 0.5\n			vertex 0.5 0.5 0.5\n		endloop\n	endfacet\n	facet normal 0 0 -1\n		outer loop\n			vertex 0.5 0.5 -0.5\n			vertex 0.5 -0.5 -0.5\n			vertex -0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal 0 0 -1\n		outer loop\n			vertex 0.5 -0.5 -0.5\n			vertex -0.5 -0.5 -0.5\n			vertex -0.5 0.5 -0.5\n		endloop\n	endfacet\n	facet normal 1 0 0\n		outer loop\n			vertex 3 3 3\n			vertex 3 1 3\n			vertex 3 3 1\n		endloop\n	endfacet\n	facet normal 1 0 0\n		outer loop\n			vertex 3 1 3\n			vertex 3 1 1\n			vertex 3 3 1\n		endloop\n	endfacet\n	facet normal -1 0 0\n		outer loop\n			vertex 1 3 1\n			vertex 1 1 1\n			vertex 1 3 3\n		endloop\n	endfacet\n	facet normal -1 0 0\n		outer loop\n			vertex 1 1 1\n			vertex 1 1 3\n			vertex 1 3 3\n		endloop\n	endfacet\n	facet normal 0 1 0\n		outer loop\n			vertex 1 3 1\n			vertex 1 3 3\n			vertex 3 3 1\n		endloop\n	endfacet\n	facet normal 0 1 0\n		outer loop\n			vertex 1 3 3\n			vertex 3 3 3\n			vertex 3 3 1\n		endloop\n	endfacet\n	facet normal 0 -1 0\n		outer loop\n			vertex 1 1 3\n			vertex 1 1 1\n			vertex 3 1 3\n		endloop\n	endfacet\n	facet normal 0 -1 0\n		outer loop\n			vertex 1 1 1\n			vertex 3 1 1\n			vertex 3 1 3\n		endloop\n	endfacet\n	facet normal 0 0 1\n		outer loop\n			vertex 1 3 3\n			vertex 1 1 3\n			vertex 3 3 3\n		endloop\n	endfacet\n	facet normal 0 0 1\n		outer loop\n			vertex 1 1 3\n			vertex 3 1 3\n			vertex 3 3 3\n		endloop\n	endfacet\n	facet normal 0 0 -1\n		outer loop\n			vertex 3 3 1\n			vertex 3 1 1\n			vertex 1 3 1\n		endloop\n	endfacet\n	facet normal 0 0 -1\n		outer loop\n			vertex 3 1 1\n			vertex 1 1 1\n			vertex 1 3 1\n		endloop\n	endfacet\nendsolid exported\n",
-			"file": "/C/Users/Rob/Downloads/model (2).stl",
-			"file_size": -1,
-			"file_write_time": -1,
-			"settings":
-			{
-				"buffer_size": 2739,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "js/exporters/STLExporter.js",
-			"settings":
-			{
-				"buffer_size": 1472,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/js/TypedArrayUtils.js",
-			"settings":
-			{
-				"buffer_size": 12580,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/three.js",
-			"settings":
-			{
-				"buffer_size": 853025,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/canvas_ascii_effect.html",
-			"settings":
-			{
-				"buffer_size": 3248,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/webgl_loader_scene_blender.html",
-			"settings":
-			{
-				"buffer_size": 9661,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/webgl_nearestneighbour.html",
-			"settings":
-			{
-				"buffer_size": 7216,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/js/exporters/STLExporter.js",
-			"settings":
-			{
-				"buffer_size": 1473,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/js/wip/ProxyGeometry.js",
-			"settings":
-			{
-				"buffer_size": 17690,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/mrdoob/three.js/examples/js/wip/proxies/MultiVector3.js",
-			"settings":
-			{
-				"buffer_size": 1009,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Projects/datascript/tools/examples/protocol_explorer/iap.ds",
-			"settings":
-			{
-				"buffer_size": 1087,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Projects/fileSaver/FileSaver.js/demo/demo.js",
-			"settings":
-			{
-				"buffer_size": 5859,
+				"buffer_size": 8425,
 				"line_ending": "Windows"
 			}
 		},
@@ -362,20 +155,62 @@
 			}
 		},
 		{
-			"file": "js/exporters/BufferGeometryExporter.js",
+			"file": "/C/Users/Rob/AppData/Roaming/Sublime Text 3/Packages/completion/completion.sublime-settings",
 			"settings":
 			{
-				"buffer_size": 1131,
-				"line_ending": "Windows"
+				"buffer_size": 354,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nTheme - Spacegray:\n-----------------\n\n  Thanks for installing Spacegray!\n  \n  \n  How to activate\n  ===============\n  \n  Activate the UI theme and color scheme by modifying your user preferences file, which you can find using the menu item `Sublime Text -> Preferences -> Settings - User` (⌘+, on Mac).\n  \n  Spacegray comes in different flavors, based on Base16 color schemes. You can choose whichever flavor you like, but don't forget to change *both* color scheme and UI theme so they match.\n  \n  *Note: Don't forget to restart Sublime Text after activating the theme.*\n  \n  \n  Spacegray\n  ---------\n  \n  Default flavor based on Base16 Ocean Dark color scheme.\n  \n  *Example settings*\n  \n      {\n        \"theme\": \"Spacegray.sublime-theme\",\n        \"color_scheme\": \"Packages/Theme - Spacegray/base16-ocean.dark.tmTheme\"\n      }\n  \n  \n  Spacegray Light\n  ---------------\n  \n  Light variation based on Base16 Ocean Light color scheme.\n  \n  *Example settings*\n  \n      {\n        \"theme\": \"Spacegray Light.sublime-theme\",\n        \"color_scheme\": \"Packages/Theme - Spacegray/base16-ocean.light.tmTheme\"\n      }\n  \n  \n  Spacegray Eighties\n  ------------------\n  \n  A variation based on Base16 Eighties Dark color scheme.\n  \n  *Example settings*\n  \n      {\n        \"theme\": \"Spacegray Eighties.sublime-theme\",\n        \"color_scheme\": \"Packages/Theme - Spacegray/base16-eighties.dark.tmTheme\"\n      }\n  \n  \n  *Note: Don't forget to restart Sublime Text after activating the theme.*\n  \n\n\nSublimeLinter-contrib-jslint:\n----------------------------\n\n  SublimeLinter-jslint\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to jslint.\n  \n  ** IMPORTANT! **\n  \n  Before this plugin will activate, you *must*\n  follow the installation instructions here:\n  \n  https://github.com/devdoc/SublimeLinter-jslint\n  \n",
+			"settings":
+			{
+				"buffer_size": 1891,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"scratch": true
+			}
+		},
+		{
+			"file": "/C/Users/Rob/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 181,
+				"line_ending": "Unix"
 			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 360.0,
+		"height": 85.0,
 		"selected_items":
 		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"jslint",
+				"JSLint"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
 			[
 				"Snippet: ",
 				"Snippet: for (…) {…} (Improved Native For-Loop)"
@@ -389,28 +224,8 @@
 				"Package Control: List Packages"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
-				"remove",
-				"Package Control: Remove Package"
-			],
-			[
 				"",
 				"About"
-			],
-			[
-				"instal",
-				"Package Control: Install Package"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
-			],
-			[
-				"remo",
-				"Package Control: Remove Package"
 			],
 			[
 				"pack",
@@ -446,13 +261,52 @@
 	},
 	"file_history":
 	[
-		"/C/Projects/mrdoob/three.js/src/extras/cameras/CubeCamera.js",
+		"/C/Projects/ctest.h",
+		"/C/Users/Rob/AppData/Roaming/Sublime Text 3/Packages/completion/completion.sublime-settings",
+		"/C/Projects/threejs/python/server.py",
+		"/C/Projects/threejs/python/packing.py",
+		"/C/Projects/threejs/python/webserver.py",
+		"/C/Projects/threejs/js/BasicThreeRenderer.js",
+		"/C/Projects/mrdoob/three.js/examples/webgl_geometry_text.html",
+		"/C/Projects/stemkoski/three.js/examples/js/loaders/STLLoader.js",
+		"/C/Projects/mrdoob/three.js/src/extras/helpers/ArrowHelper.js",
+		"/C/Projects/mrdoob/three.js/src/extras/helpers/PointLightHelper.js",
+		"/C/Projects/mrdoob/three.js/src/extras/helpers/SpotLightHelper.js",
+		"/C/Projects/mrdoob/three.js/src/extras/helpers/AxisHelper.js",
+		"/C/Projects/mrdoob/three.js/src/extras/GeometryUtils.js",
+		"/C/Projects/mrdoob/three.js/examples/js/wip/GeometryEditor.js",
+		"/C/Projects/threejs/js/loaders/STLLoader.js",
+		"/C/Projects/threejs/basic.html",
+		"/C/Projects/mrdoob/three.js/src/extras/cameras/CombinedCamera.js",
+		"/C/Projects/mrdoob/three.js/src/extras/core/Curve.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/Loader.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/BufferGeometryLoader.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/LoadingManager.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/MaterialLoader.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/ObjectLoader.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/XHRLoader.js",
+		"/C/Projects/mrdoob/three.js/src/loaders/Cache.js",
+		"/C/Projects/mrdoob/three.js/src/materials/MeshLambertMaterial.js",
+		"/C/Projects/mrdoob/three.js/src/extras/helpers/BoundingBoxHelper.js",
+		"/C/Users/Rob/Downloads/model (2).stl",
 		"/C/Projects/threejs/js/exporters/STLExporter.js",
+		"/C/Projects/mrdoob/three.js/examples/js/TypedArrayUtils.js",
+		"/C/Projects/threejs/js/three.js",
+		"/C/Projects/mrdoob/three.js/examples/canvas_ascii_effect.html",
+		"/C/Projects/mrdoob/three.js/examples/webgl_loader_scene_blender.html",
+		"/C/Projects/mrdoob/three.js/examples/webgl_nearestneighbour.html",
+		"/C/Projects/mrdoob/three.js/examples/js/exporters/STLExporter.js",
+		"/C/Projects/mrdoob/three.js/examples/js/wip/ProxyGeometry.js",
+		"/C/Projects/mrdoob/three.js/examples/js/wip/proxies/MultiVector3.js",
+		"/C/Projects/datascript/tools/examples/protocol_explorer/iap.ds",
+		"/C/Projects/fileSaver/FileSaver.js/demo/demo.js",
+		"/C/Projects/mrdoob/three.js/examples/js/BufferGeometryUtils.js",
+		"/C/Projects/threejs/js/exporters/BufferGeometryExporter.js",
+		"/C/Projects/mrdoob/three.js/src/extras/cameras/CubeCamera.js",
 		"/C/Projects/threejs/python/upload.html",
 		"/C/Projects/threejs/js/wip/benchmark/Geometry2Loader.js",
 		"/C/Users/Rob/Desktop/model.stl",
 		"/C/Projects/threejs/README.md",
-		"/C/Projects/threejs/js/loaders/STLLoader.js",
 		"/C/Projects/threejs/models/BatteryAssembly.stl",
 		"/C/Projects/threejs/models/Battery Assembly.stl",
 		"/C/Projects/datascript/tools/examples/protocol_explorer/.indent.pro",
@@ -491,7 +345,7 @@
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -505,6 +359,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"center",
+			"centre",
 			"_getBytes",
 			"getFloat32",
 			"text_options_form",
@@ -558,323 +414,75 @@
 	"groups":
 	[
 		{
-			"selected": 16,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "python/packing.py",
+					"file": "/C/Projects/ctest.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2150,
+						"buffer_size": 125,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								766,
-								766
+								125,
+								125
 							]
 						],
 						"settings":
 						{
 							"BracketHighlighterBusy": false,
-							"auto_name": "packing.py",
 							"bh_regions":
 							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
 								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"spell_check": true,
-							"sublime_auto_complete": true,
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 28,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "python/server.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"open_with_edit": true,
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 29,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "python/webserver.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2120,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1489,
-								1489
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
+								"bh_tag_close"
 							],
 							"codeintel": true,
 							"codeintel_config":
@@ -980,1051 +588,7 @@
 							},
 							"codeintel_tooltips": "popup",
 							"sublime_auto_complete": true,
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 21,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "js/BasicThreeRenderer.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4994,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4483,
-								4483
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1139.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 15,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "models/test.stl",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14447167,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "js/loaders/STLLoader.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10360,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7052,
-								7061
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4147.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "basic.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1710,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1710,
-								1710
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Projects/mrdoob/three.js/src/extras/cameras/CombinedCamera.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5079,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/Projects/mrdoob/three.js/src/extras/core/Curve.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6800,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/Loader.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8324,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 195.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/BufferGeometryLoader.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1374,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/LoadingManager.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 593,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/MaterialLoader.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1698,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -2034,20 +598,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/ObjectLoader.js",
+					"buffer": 1,
+					"file": "js/BasicThreeRenderer.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6426,
+						"buffer_size": 8425,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								209,
+								209
 							]
 						],
 						"settings":
@@ -2055,195 +619,158 @@
 							"BracketHighlighterBusy": false,
 							"bh_regions":
 							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3705.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/XHRLoader.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1288,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": -0.0,
-						"translation.y": 468.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "/C/Projects/mrdoob/three.js/src/loaders/Cache.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 506,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
-								"bh_single_quote_close"
+								"bh_single_quote_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close"
 							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -2253,1271 +780,9 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "/C/Projects/mrdoob/three.js/src/materials/MeshLambertMaterial.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2860,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
-					"file": "/C/Users/Rob/Downloads/model (2).stl",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2739,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								590,
-								613
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 18,
-					"file": "js/exporters/STLExporter.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1472,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1472,
-								1472
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 312.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 19,
-					"file": "/C/Projects/mrdoob/three.js/examples/js/TypedArrayUtils.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12580,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 6591.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 18,
-					"type": "text"
-				},
-				{
-					"buffer": 20,
-					"file": "js/three.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 853025,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								253215,
-								253223
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": -0.0,
-						"translation.y": 166520.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 19,
-					"type": "text"
-				},
-				{
-					"buffer": 21,
-					"file": "/C/Projects/mrdoob/three.js/examples/canvas_ascii_effect.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3248,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 27,
-					"type": "text"
-				},
-				{
-					"buffer": 22,
-					"file": "/C/Projects/mrdoob/three.js/examples/webgl_loader_scene_blender.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9661,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4641,
-								4657
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 26,
-					"type": "text"
-				},
-				{
-					"buffer": 23,
-					"file": "/C/Projects/mrdoob/three.js/examples/webgl_nearestneighbour.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7216,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5041,
-								5047
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1950.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 25,
-					"type": "text"
-				},
-				{
-					"buffer": 24,
-					"file": "/C/Projects/mrdoob/three.js/examples/js/exporters/STLExporter.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1473,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1448,
-								1454
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": -0.0,
-						"translation.y": 78.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 22,
-					"type": "text"
-				},
-				{
-					"buffer": 25,
-					"file": "/C/Projects/mrdoob/three.js/examples/js/wip/ProxyGeometry.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17690,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 8994.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 24,
-					"type": "text"
-				},
-				{
-					"buffer": 26,
-					"file": "/C/Projects/mrdoob/three.js/examples/js/wip/proxies/MultiVector3.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1009,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								697,
-								697
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 23,
-					"type": "text"
-				},
-				{
-					"buffer": 27,
-					"file": "/C/Projects/datascript/tools/examples/protocol_explorer/iap.ds",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1087,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								344,
-								344
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close"
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 30,
-					"type": "text"
-				},
-				{
-					"buffer": 28,
-					"file": "/C/Projects/fileSaver/FileSaver.js/demo/demo.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5859,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5033,
-								5033
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 913.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				},
-				{
-					"buffer": 29,
+					"buffer": 2,
 					"file": "/C/Projects/mrdoob/three.js/examples/js/BufferGeometryUtils.js",
-					"semi_transient": false,
+					"semi_transient": true,
 					"settings":
 					{
 						"buffer_size": 3868,
@@ -3527,8 +792,8 @@
 						"selection":
 						[
 							[
-								2988,
-								2988
+								0,
+								0
 							]
 						],
 						"settings":
@@ -3536,119 +801,50 @@
 							"BracketHighlighterBusy": false,
 							"bh_regions":
 							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1014.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 30,
-					"file": "js/exporters/BufferGeometryExporter.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1131,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1115,
-								1121
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close"
 							],
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
@@ -3657,7 +853,547 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/Rob/AppData/Roaming/Sublime Text 3/Packages/completion/completion.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 354,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								354,
+								354
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1891,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1007,
+								1007
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/Rob/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								181,
+								181
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -3705,7 +1441,7 @@
 	"project": "threeRendering.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -3713,6 +1449,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"bas",
+				"js\\BasicThreeRenderer.js"
+			],
 			[
 				"load",
 				"js\\loaders\\STLLoader.js"
@@ -3751,11 +1491,11 @@
 	"settings":
 	{
 	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 261.0,
+	"side_bar_width": 222.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
