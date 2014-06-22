@@ -30,8 +30,7 @@ WebGLScene.prototype.initScene = function(colour, alpha, params) {
     try {
         this.renderer = new THREE.WebGLRenderer(params);
     }
-    catch(err)
-    {
+    catch(err) {
         console.error("Error Could Not Create WebGL Context");
         throw(err);
     }
@@ -106,6 +105,13 @@ WebGLScene.prototype.addCube = function (dims, pos, colour, name) {
     return cube;
 }
 
+/**
+ * Draws a GL line connecting the given points
+ * @param  {[x,y,z] or THREE.Vector3 list}} points the list of points to connect
+ * @param  {uint24} colour line colour
+ * @param  {int} width  doens't work
+ * @return {mesh}        the line object
+ */ 
 WebGLScene.prototype.drawLine = function (points, colour, width)  {
     if(typeof(colour)==='undefined') colour = 0x00ff00;
     if(typeof(width)==='undefined') width = 4;
@@ -120,26 +126,17 @@ WebGLScene.prototype.drawLine = function (points, colour, width)  {
 
     var type = THREE.LinePieces;
     var object = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: colour, linewidth: width } ), type );
-
-    //object.position.x = Math.random() * 400 - 200;
-    //object.position.y = Math.random() * 400 - 200;
-    //object.position.z = Math.random() * 400 - 200;
     object.position = start;
-    //object.rotation.x = Math.random() * 2 * Math.PI;
-    //object.rotation.y = Math.random() * 2 * Math.PI;
-    //object.rotation.z = Math.random() * 2 * Math.PI;
-
-    //object.scale.x = Math.random() + 0.5;
-    //object.scale.y = Math.random() + 0.5;
-    //object.scale.z = Math.random() + 0.5;
-
     this.scene.add( object );
+
+    return object;
 }
 
-WebGLScene.prototype.addText2D = function(text, size, position, rotation, colour, name) {
+WebGLScene.prototype.addText2D = function(text, size, position, rotation, colour, billboard) {
     if(typeof(rotation)==='undefined') rotation = [0, 0, 0];
     if(typeof(colour)==='undefined') colour = 0x0000ff;
     if(typeof(name)==='undefined') name = "2Dtext";
+    if (billboard === undefined) billboard = false;
 
     position = toVec3(position);
     rotation = toVec3(rotation);
@@ -155,17 +152,20 @@ WebGLScene.prototype.addText2D = function(text, size, position, rotation, colour
     mesh = new THREE.Mesh( geom, mat );
     mesh.position = position;
     mesh.name = name;
-    this.billboards.push(mesh);
+    if (billboard) {
+        this.billboards.push(mesh);
+    }
     this.scene.add(mesh);
 
     return mesh;
 }
 
 
-WebGLScene.prototype.addText3D = function(text, size, height, position, rotation, colour, name) {
+WebGLScene.prototype.addText3D = function(text, size, height, position, rotation, colour, billboard) {
     if(typeof(rotation)==='undefined') rotation = [0, 0, 0];
     if(typeof(colour)==='undefined') colour = 0x0000ff;
     if(typeof(name)==='undefined') name = "3Dtext";
+    if (billboard === undefined) billboard = false;
 
     position = toVec3(position);
     rotation = toVec3(rotation);
@@ -203,7 +203,9 @@ WebGLScene.prototype.addText3D = function(text, size, height, position, rotation
     mesh = new THREE.Mesh( textGeo, mat );
     mesh.position = position;
     mesh.name = name;
-    this.billboards.push(mesh);
+    if (billboard) {
+        this.billboards.push(mesh);
+    }
     this.scene.add(mesh);
 
     return mesh;
